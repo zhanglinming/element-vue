@@ -21,19 +21,30 @@
       }
     },
     methods:{
-      /*发送登录请求：用户登录*/
-      handleLogin(){
-        this.$http.post('login',this.formdata).then(res => {
-          const{
-            data,meta:{msg,status}
-          } = res.data
-          if(status === 200){
-            this.$router.push({name:'home'})
-            this.$message.success(msg);
-          }else{
-            this.$message.warning(msg);
-          }
-        })
+      /*异步请求变同步：用户登录*/
+      async handleLogin(){
+        const res = await this.$http.post('login',this.formdata)
+        const{
+          data,meta:{msg,status}
+        } = res.data
+        if(status === 200){
+          this.$router.push({name:'home'})
+          this.$message.success(msg);
+        }else{
+          this.$message.warning(msg);
+        }
+        /*发送登录请求：用户登录*/
+        // this.$http.post('login',this.formdata).then(res => {
+        //   const{
+        //     data,meta:{msg,status}
+        //   } = res.data
+        //   if(status === 200){
+        //     this.$router.push({name:'home'})
+        //     this.$message.success(msg);
+        //   }else{
+        //     this.$message.warning(msg);
+        //   }
+        // })
       },
       /*匿名登录*/
       anonymousLogin(){
