@@ -61,9 +61,6 @@
 </script>
 
 <style>
-  body{
-    background-color: #34495e;
-  }
   .login-wrap{
     width: 300px;
     padding: 40px;
