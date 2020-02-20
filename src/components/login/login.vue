@@ -28,6 +28,10 @@
           data,meta:{msg,status}
         } = res.data
         if(status === 200){
+          /*登录成功*/
+          /*保存token*/
+          localStorage.setItem('token',data.token)
+          /*保存token：如果用户没登录，通过url直接来home组件，在登录成功时保存正确用户的token*/
           this.$router.push({name:'home'})
           this.$message.success(msg);
         }else{
@@ -35,6 +39,7 @@
         }
         /*发送登录请求：用户登录*/
         // this.$http.post('login',this.formdata).then(res => {
+        // console.log(res)
         //   const{
         //     data,meta:{msg,status}
         //   } = res.data
