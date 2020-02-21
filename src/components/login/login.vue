@@ -17,9 +17,6 @@
         formdata:{
           username:'',
           password:''
-        },
-        adata:{
-
         }
       }
     },
@@ -29,7 +26,7 @@
         this.$message.success("登录成功！");
         this.$router.push({name:'home'})
       },
-      /*异步请求变同步：用户登录*/
+      /*异步请求变同步：用户登录(async+await)*/
       // async handleLogin(){
       //   const res = await this.$http.post('login',this.formdata)
       //   const{
@@ -41,9 +38,9 @@
       //     localStorage.setItem('token',data.token)
       //     /*保存token：如果用户没登录，通过url直接来home组件，在登录成功时保存正确用户的token*/
       //     this.$router.push({name:'home'})
-      //     this.$message.success(msg);
+      //     this.$message.success(msg)
       //   }else{
-      //     this.$message.warning(msg);
+      //     this.$message.warning(msg)
       //   }
       // },
       /*匿名登录:登录请求*/

@@ -3,7 +3,7 @@ import axios from 'axios'
 const aHttpServer = {}
 
 aHttpServer.install = (Vue) => {
-  axios.default.baseURL = '/apis/gnyj/query?=&key=a1e918176df5819bb023a1748807669d'
+  axios.default.baseURL = 'http://web.juhe.cn:8080/finance/stock/'
   /*添加实例方法*/
   Vue.prototype.$http = axios
 }
