@@ -95,15 +95,7 @@
 </template>
 
 <script>
-  // 通过token值进行权限验证
-  // export default {
-  //   beforeCreate(){
-  //     const token = localStorage.getItem('token');
-  //     if(!token){
-  //       this.$router.push({name:'login'})
-  //     }
-  //   }
-  // }
+
 </script>
 
 <style>
