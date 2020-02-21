@@ -12,7 +12,7 @@
         </el-col>
         <el-col :span="2">
           <div class="grid-content bg-purple">
-            <a class="loginout" href="#">退出</a>
+            <a class="loginout" @click.prevent="anonyMousout()" href="#">退出</a>
           </div>
         </el-col>
       </el-row>
@@ -95,7 +95,16 @@
 </template>
 
 <script>
-
+export default {
+    methods:{
+      anonyMousout(){
+        //提示
+        this.$message.success('退出成功！')
+        //回到login页面
+        this.$router.push({name:'login'})
+      }
+    }
+  }
 </script>
 
 <style>
