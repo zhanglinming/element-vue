@@ -59,7 +59,7 @@
       /*匿名登录*/
       anonymousLogin(){
         this.$message.success("登录成功！");
-        this.$router.push({name:'anonymous'})
+        this.$router.push({name:'ahome'})
       }
     }
   }

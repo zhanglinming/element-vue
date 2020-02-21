@@ -19,14 +19,17 @@
     </el-header>
     <el-container>
       <el-aside class="aside" width="200px">
-        <el-menu :unique-opened="true">
+        <!--开启路由模式：:router="true"-->
+        <el-menu
+        :router="true"
+        :unique-opened="true">
           <!--1-->
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>用户管理</span>
             </template>
-            <el-menu-item index="1-1">
+            <el-menu-item index="users">
               <i class="el-icon-location"></i>
               <span>用户列表</span>
             </el-menu-item>
@@ -89,7 +92,10 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-      <el-main class="main">Main</el-main>
+      <el-main class="main">
+        <!--右边容器-->
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
