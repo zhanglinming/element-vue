@@ -10,7 +10,17 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    //跨域解决办法
+    proxyTable: {
+      '/apis':{
+        //测试环境
+        target:'http://apis.juhe.cn', //接口地址
+        changeOrigin:true, //是否跨域
+        pathRewrite:{
+          '^/apis':'/' //需要rewrite重写
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

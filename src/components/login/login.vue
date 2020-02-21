@@ -17,6 +17,9 @@
         formdata:{
           username:'',
           password:''
+        },
+        adata:{
+
         }
       }
     },
@@ -26,7 +29,7 @@
         this.$message.success("登录成功！");
         this.$router.push({name:'home'})
       },
-      // /*异步请求变同步：用户登录*/
+      /*异步请求变同步：用户登录*/
       // async handleLogin(){
       //   const res = await this.$http.post('login',this.formdata)
       //   const{
@@ -42,24 +45,16 @@
       //   }else{
       //     this.$message.warning(msg);
       //   }
-      //   /*发送登录请求：用户登录*/
-      //   // this.$http.post('login',this.formdata).then(res => {
-      //   // console.log(res)
-      //   //   const{
-      //   //     data,meta:{msg,status}
-      //   //   } = res.data
-      //   //   if(status === 200){
-      //   //     this.$router.push({name:'home'})
-      //   //     this.$message.success(msg);
-      //   //   }else{
-      //   //     this.$message.warning(msg);
-      //   //   }
-      //   // })
       // },
-      /*匿名登录*/
+      /*匿名登录:登录请求*/
       anonymousLogin(){
-        this.$message.success("登录成功！");
-        this.$router.push({name:'ahome'})
+        this.$http.get('/apis/gnyj/query?=&key=a1e918176df5819bb023a1748807669d').then((res) => {
+          console.log(res)
+          this.$message.success("登录成功！")
+          this.$router.push({name:'ahome'})
+        }).catch((err) => {
+          console.log("请求失败")
+        })
       }
     }
   }
