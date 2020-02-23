@@ -12,12 +12,14 @@
     <el-row class="searchRow">
       <el-col>
         <el-input
+        @clear="loadUserList()"
+        clearable
         placeholder="请输入内容"
         v-model="query"
         class="inputSearch">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-button @click="searchUser()" slot="append" icon="el-icon-search"></el-button>
         </el-input>
-        <el-button class="add-btn" type="success">添加用户</el-button>
+        <el-button class="add-btn" @click="showAddUserDia()" type="success">添加用户</el-button>
       </el-col>
     </el-row>
     <!--3.表格-->
@@ -75,11 +77,49 @@
             label="操作">
             <template slot-scope="scope">
               <el-button size="mini" plain type="primary" icon="el-icon-edit" circle></el-button>
+              <el-button
+              size="mini"
+              plain type="danger"
+              icon="el-icon-delete"
+              circle
+              @click="showDeleUserMsgBox()"></el-button>
               <el-button size="mini" plain type="success" icon="el-icon-check" circle></el-button>
-              <el-button size="mini" plain type="danger" icon="el-icon-delete" circle></el-button>
             </template>
           </el-table-column>
         </el-table>
+        <!--4.分页-->
+        <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="pagenum"
+        :page-sizes="[2, 4, 6, 8]"
+        :page-size="2"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+        </el-pagination>
+
+        <!--对话框-->
+        <!--添加用户的对话框-->
+        <el-dialog title="添加用户" :visible.sync="dialogFormVisibleAdd">
+          <el-form :model="form">
+            <el-form-item label="用户名" label-width="100px">
+              <el-input v-model="form.username" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="密 码" label-width="100px">
+              <el-input v-model="form.password" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="邮 箱" label-width="100px">
+              <el-input v-model="form.email" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="电 话" label-width="100px">
+              <el-input v-model="form.mobile" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
+            <el-button type="primary" @click="addUser()">确 定</el-button>
+          </div>
+        </el-dialog>
   </el-card>
 </template>
 
@@ -93,7 +133,16 @@
         //分页相关数据
         total:-1,
         pagenum:1,
-        pagesize:2
+        pagesize:2,
+        //添加对话框的属性
+        dialogFormVisibleAdd:false,
+        //添加用户的表单数据
+        form:{
+          username:'',
+          password:'',
+          email:'',
+          mobile:''
+        }
       }
     },
     created(){
@@ -101,6 +150,75 @@
       this.getUserList()
     },
     methods:{
+      //删除用户-打开消息盒子
+      showDeleUserMsgBox(){
+        this.$confirm('删除用户?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'warning'
+                }).then(() => {
+                  this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                  });
+                }).catch(() => {
+                  this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                  });          
+                });
+
+      },
+      //添加用户-发送请求
+      async addUser(){
+        //2.关闭对话框
+        this.dialogFormVisibleAdd = false
+
+        const res = await this.$http.post('users',this.form)
+        console.log(res)
+        const {meta:{status,msg},data} = res.data
+        if(status === 201){
+          //1.提示成功
+          this.$message.success(msg)
+          //3.更新地图
+          this.getUserList()
+          //4.清空文本框
+          this.form = {}
+          // for (const key in this.form){
+          //   if(this.form.hasOwnProperty(key)){
+          //     this.form[key] = ""
+          //   }
+          // }
+        }else{
+          this.$message.warning(msg)
+        }
+      },
+      //添加用户-显示对话框
+      showAddUserDia(){
+        //点击添加用户按钮显示对话框
+        this.dialogFormVisibleAdd = true
+      },
+      //清空搜索框重新获取数据
+      loadUserList(){
+        this.getUserList()
+      },
+      //搜索用户
+      searchUser(){
+        //按照
+        this.getUserList()
+      },
+      //分页方法
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`)
+        this.pagesize = val
+        this.getUserList()
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`)
+        this.pagenum = val
+        this.getUserList()
+      },
+
       //获取用户列表的请求（发送请求）
       async getUserList(){
         // 接口文档中，除了登录之外所有的请求都有进行授权->设置请求头，找axios中关于请求头的设置代码
@@ -130,9 +248,10 @@
           // 给total赋值
           this.total = total
           // 提示
-          this.$message.success(msg)
+          // this.$message.success(msg)
         }else{
-          this.$message.warning(msg)
+          // 提示
+          // this.$message.warning(msg)
         }
       }
     }
