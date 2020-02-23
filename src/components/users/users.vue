@@ -1,3 +1,5 @@
+<!--1.解构赋值，给this.userlist = res.data.data.users-->
+<!--2.prop=""-->
 <template>
   <el-card class="box-card">
     <!--1.面包屑：/首页/用户管理/用户列表-->
@@ -41,17 +43,41 @@
             prop="mobile"
             label="电话">
           </el-table-column>
+
           <el-table-column
-            prop="create_time"
             label="创建时间">
+            <!--如果单元格内显示的内容不是字符串(文本),需要给被显示的内容外层包裹一个template-->
+            <!--template内部要用数据，需要设置slot-scope属性，该属性的值是要用数据的数据源userlist-->
+            <!--slot-scope的值userlist其实就是el-table绑定的数据userlist，userlist.row->数组中的每个对象-->
+            <!--不同组件的数据不是共享的，而是独立作用域-->
+
+            <!-- <template slot-scope="userlist">
+            {{userlist.row.create_time | fmtdate}}
+            </template> -->
+
+            <template slot-scope="scope">
+            {{scope.row.create_time | fmtdate}}
+            </template>
           </el-table-column>
-          <el-table-column
-            prop="mg_state"
-            label="用户状态">
+
+          <el-table-column label="用户状态">
+            <template slot-scope="scope">
+              <el-switch
+                v-model="scope.row.mg_state"
+                active-color="#13ce66"
+                inactive-color="#ff4949">
+              </el-switch>
+            </template>
           </el-table-column>
+
           <el-table-column
             prop="address"
             label="操作">
+            <template slot-scope="scope">
+              <el-button size="mini" plain type="primary" icon="el-icon-edit" circle></el-button>
+              <el-button size="mini" plain type="success" icon="el-icon-check" circle></el-button>
+              <el-button size="mini" plain type="danger" icon="el-icon-delete" circle></el-button>
+            </template>
           </el-table-column>
         </el-table>
   </el-card>

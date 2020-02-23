@@ -17,7 +17,7 @@ module.exports = {
         target:'http://apis.juhe.cn', //接口地址
         changeOrigin:true, //是否跨域
         pathRewrite:{
-          '^/apis':'/' //需要rewrite重写
+          '^/apis':'/apis' //需要rewrite重写
         }
       }
     },
